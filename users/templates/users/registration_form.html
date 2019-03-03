@@ -1,0 +1,14 @@
+{% extends 'users/header.html' %}
+{%block title%}Registration PAGE{%endblock%}
+
+{%block body%}
+<center>
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'users/form-template.html' %}
+        <div>
+            <button class="btn btn-success" type="submit">Submit</button>
+        </div>
+    </form>
+</center>
+{% endblock %}

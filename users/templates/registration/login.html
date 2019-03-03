@@ -1,0 +1,26 @@
+{% extends 'users/header.html' %}
+{% block title %}Login Page {% endblock %}
+{% block body %}
+    <center>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <h1>LOGIN PAGE</h1>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="col-md-4">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {%for fields in form %}
+                {{fields.errors}}
+                {{fields.label_tag}}
+                 <div class="form-group">
+                {{fields}}
+                 </div>
+                {%endfor%}
+                <button type="submit" class="btn btn-success">Sign in</button>
+            </form>
+        </div>
+    </center>
+{% endblock %}
