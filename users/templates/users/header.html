@@ -18,10 +18,10 @@
         </div>
             <ul class="nav ml-auto" >
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sign up</a>
+                    <a class="nav-link" href="/users/register">Sign up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
+                    <a class="nav-link" href="/users/login">Login</a>
                 </li>
             </ul>
         </nav>
@@ -29,6 +29,9 @@
         <div class="container">
             {%block body%}
                 hello
+            {% if user is not None %}
+                {{request.user}}
+            {% endif%}
             {%endblock%}
         </div>
 </body>
