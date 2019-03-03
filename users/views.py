@@ -8,7 +8,9 @@ from django.views.generic import View
 def index(request):
     template_name = 'users/index.html'
     return render(request, template_name, None, None, None, None)
-
+def about(request):
+    template_name = 'users/about.html'
+    return render(request, template_name, None, None, None, None)
 
 class UserFormView(View):
     form_class = UserForm
