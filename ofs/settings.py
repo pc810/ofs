@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'feedback.apps.FeedbackConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,5 +127,5 @@ STATIC_URL = '/static/'
 
 #login redirection
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/feedback/'
 LOGOUT_REDIRECT_URL = '/'
