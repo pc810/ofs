@@ -1,0 +1,14 @@
+{%extends 'users/header.html' %}
+{%block title %}Form{% endblock %}
+{%block body%}
+<center>
+    hello
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form}}
+        <div>
+            <button class="btn btn-success" type="submit">Submit</button>
+        </div>
+    </form>
+</center>
+{%endblock%}

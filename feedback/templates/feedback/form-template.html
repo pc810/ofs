@@ -1,0 +1,28 @@
+{% extends 'users/header.html' %}
+
+{% block title %}
+form-template
+{% endblock %}
+
+{% block body %}
+<center>
+{% for field in form %}
+
+
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <span class="text-danger small">{{field.errors}}</span>
+                <label class="control-label col-sm-2">{{field.label_tag}}</label>
+                    <div class="col-sm-10">{{field}}</div>
+            </div>
+    </div>
+        {%endfor%}
+        <div>
+            <button class="btn btn-success" type="submit">Submit</button>
+        </div>
+    </form>
+</center>
+
+{% endblock %}
