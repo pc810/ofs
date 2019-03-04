@@ -15,7 +15,7 @@ class Form(models.Model):
     form_status = models.CharField(choices=FORM_STATUS, max_length=10)
 
     def __str__(self):
-        return self.form_heading + " - " + self.user
+        return self.form_heading
 
 
 class Question(models.Model):
@@ -30,7 +30,7 @@ class Question(models.Model):
     ques_type = models.CharField(choices=QUES_TYPE, max_length=10)
 
     def __str__(self):
-        return self.form + " - "+ self.ques_text + " - " + self.ques_type
+        return self.ques_text + " - " + self.ques_type
 
 
 class Answer(models.Model):
@@ -41,4 +41,4 @@ class Answer(models.Model):
     ans_posted = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.user + " - " + self.form + " - " + self.question + " - " + self.answer
+        return self.answer
