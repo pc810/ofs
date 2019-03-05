@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate
 from .forms import UserForm
 from django.views.generic import View
-
+from django.contrib import messages
 
 def index(request):
     template_name = 'users/index.html'
@@ -16,29 +16,41 @@ def about(request):
     return render(request, template_name, None, None, None, None)
 
 
-class UserFormView(View):
-    form_class = UserForm
-    template_name = 'users/registration_form.html'
+# class UserFormView(View):
+#     form_class = UserForm
+#     template_name = 'users/registration_form.html'
+#
+#     def get(self, request):
+#         form = self.form_class(None)
+#         return render(request, self.template_name, {'form': form})
+#
+#     def post(self, request):
+#         form = self.form_class(request.POST)
+#         if form.is_valid():
+#
+#             user = form.save(commit=False)
+#             username = form.cleaned_data["username"]
+#             password = form.cleaned_data["password"]
+#             user.set_password(password)
+#             user.save()
+#
+#             user = authenticate(username=username, password=password)
+#
+#             if user is not None:
+#                 if user.is_active:
+#                     return redirect('users:index')
+#
+#         return render(request, self.template_name, {'form': form})
 
-    def get(self, request):
-        form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        form = self.form_class(request.POST)
+def signup(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
         if form.is_valid():
-
-            user = form.save(commit=False)
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            user.set_password(password)
-            user.save()
-
-            user = authenticate(username=username, password=password)
-
-            if user is not None:
-                if user.is_active:
-                    return redirect('users:index')
-
-        return render(request, self.template_name, {'form': form})
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('home')
+    else:
+        form = UserForm()
+    return render(request, 'users/registration_form.html', {'form': form})
 
