@@ -5,11 +5,17 @@ from django.http import HttpResponse
 from .forms import NameForm
 from django.contrib.auth.admin import User
 from .models import Form as MyForm
+from .models import Question as MyQuestion
 
 
 def index(request):
     template_name = 'feedback/index.html'
-    return render(request, template_name, None, None, None, None)
+    if request.user.id:
+        userform = MyForm.objects.filter(user=request.user)
+        return render(request, template_name, {'userform': userform})
+    else:
+        return render(request, template_name)
+
 
 
 # class CreateFormClass(CreateView):
@@ -48,9 +54,16 @@ def createForm(request):
                 myform.form_link = form.cleaned_data["form_link"]
                 myform.form_status = form.cleaned_data["form_status"]
                 myform.save()
-            return render(request, 'users/index.html')
+
+            return render(request, 'users/index.html', {'myform': myform})
+
         else:
             form = NameForm()
 
         return render(request, 'feedback/form.html', {'form': form})
 
+def displayForm(request):
+    if request.user.is_authenticated:
+        q = MyQuestion()
+        userform = MyForm.objects.filter(user=request.user)
+        return render(request, "feedback/userform.html", {"userforms": userform})

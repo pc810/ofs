@@ -5,4 +5,89 @@
 
 {% block body %}
 <h1>This is Index of Feedback App</h1>
+<br>
+{%if user.is_authenticated%}
+<div class="container">
+    <div class="jumbotron">
+        <font size=10px>Start a new Form</font><br><br><br><br>
+        <div class="row">
+            <div class="card" style="width:200px">
+                <a href="{% url 'feedback:form-add' %}">
+                    <img  class="card-img-top" style="width:100px align:center;" src="https://www.freeiconspng.com/uploads/add-icons-free-icons-in-aeon--icon-search-engine--12.png" >
+                    <div class="card-body">
+                        <h6 class="card-title">CREATE FORM</h6>
+                    </div>
+                </a>
+            </div>
+            &nbsp;&nbsp;&nbsp;
+            <div class="card" style="width:200px">
+                <a href="#">
+                    <img  class="card-img-top" style="width:100px align:center;" src="https://image.flaticon.com/icons/svg/55/55238.svg" alt="Event">
+                    <div class="card-body">
+                        <h6 class="card-title">Event Registration</h6>
+                    </div>
+                </a>
+            </div>
+            &nbsp;&nbsp;&nbsp;
+            <div class="card" style="width:200px">
+                <a href="#">
+                    <img  class="card-img-top" style="width:100px align:center;" src="https://previews.123rf.com/images/keltt/keltt1512/keltt151200002/50001994-icon-for-high-school-graduation-symbol-with-black-cap-silhouette.jpg" alt="course" >
+                    <div class="card-body">
+                        <h6 class="card-title">Course Evaluation</h6>
+                    </div>
+                </a>
+            </div>
+            &nbsp;&nbsp;&nbsp;
+            <div class="card" style="width:200px">
+                <a href="#">
+                    <img  class="card-img-top" style="width:200px; align:center;" src="https://image.freepik.com/free-icon/birthday-cake-symbol_318-10161.jpg" alt="party invite">
+                    <div class="card-body">
+                        <h6 class="card-title">Party Invite</h6>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="container-fluid">
+        <div class="jumbotron">
+            <font size=10px>My Form</font><br><br><br>
+        {% for form in userform %}
+        &nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="card bg-white" style="width: 40rem;">
+              <div class="card-header"><h6>{{form.form_heading}}</h6></div>
+               <div class="card-body">
+
+                   <p class="card-text">
+                       <font size="5px">Link:&nbsp;&nbsp;&nbsp;&nbsp;</font>
+                       <font size="3">{{form.form_link}}</font>
+                   </p>
+                    <p class="card-text">
+                       <font size="5px">Posted:&nbsp;&nbsp;&nbsp;&nbsp;</font>
+                       <font size="6">{{form.form_posted}}</font>
+                   </p>
+                   <p class="card-text">
+                       <font size="5px">Status:&nbsp;&nbsp;&nbsp;&nbsp;</font>
+                       <font size="10">{{form.form_status}}</font>
+                   </p>
+                </div>
+                <div class="card-footer">
+                   <div class="row ">
+                    <div class="col-md-auto">
+                        <form>
+                            <button class="btn btn-outline-primary" style="submit">Edit</button>
+                            <button class="btn btn-outline-success" style="submit">Share</button>
+                            <button class="btn btn-danger" style="submit">Remove</button>
+                        </form>
+                    </div>
+                   </div>
+                </div>
+          </div>
+        {% endfor %}
+   </div>
+        </div>
+{%else%}
+HELLO there
+{%endif%}
+
 {% endblock%}
