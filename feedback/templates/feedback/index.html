@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block body %}
-<h1>This is Index of Feedback App</h1>
+<div class="container">
+    <br><br><div class="jumbotron"><h1>This is Index of Feedback App</h1></div>
+</div>
 <br>
 {%if user.is_authenticated%}
 <div class="container">
@@ -49,15 +51,26 @@
         </div>
     </div>
 </div>
-    <div class="container-fluid">
+    <div class="container">
         <div class="jumbotron">
             <font size=10px>My Form</font><br><br><br>
         {% for form in userform %}
         &nbsp;&nbsp;&nbsp;&nbsp;
-          <div class="card bg-white" style="width: 40rem;">
-              <div class="card-header"><h6>{{form.form_heading}}</h6></div>
-               <div class="card-body">
 
+          <div class="card border-primary" style="width: 40rem;">
+              <div class="card-header">
+                  <div class="row"><a href="form/about/{{form.id}}"><font size="5">{{form.form_heading}}</font></a>
+                      <div class="ml-auto">
+                          <form action="manage" method="get">
+                              {% csrf_token %}
+                              <button class="btn btn-outline-primary" type="submit" name="myaction" value="edit">Edit</button>
+                              <button class="btn btn-outline-success" type="submit" name="myaction" value="share">Share</button>
+                              <input type="hidden" name="formid" value="{{form.id}}">
+                          </form>
+                      </div>
+                  </div>
+              </div>
+               <div class="card-body">
                    <p class="card-text">
                        <font size="5px">Link:&nbsp;&nbsp;&nbsp;&nbsp;</font>
                        <font size="3">{{form.form_link}}</font>
@@ -71,23 +84,29 @@
                        <font size="10">{{form.form_status}}</font>
                    </p>
                 </div>
-                <div class="card-footer">
-                   <div class="row ">
-                    <div class="col-md-auto">
-                        <form>
-                            <button class="btn btn-outline-primary" style="submit">Edit</button>
-                            <button class="btn btn-outline-success" style="submit">Share</button>
-                            <button class="btn btn-danger" style="submit">Remove</button>
-                        </form>
-                    </div>
-                   </div>
+                <div class="card-footer" >
+                   <form action="manage" method="get">
+                       {% csrf_token %}
+                       <input type="hidden" name="formid" value="{{form.id}}">
+                        <div class="row ">
+                            <div class="col-md-2">
+                                <button class="btn btn-info" type="submit" name="myaction" value="response">Response</button>
+                            </div>
+                            <div class="ml-auto">
+                                <button class="btn btn-success" type="submit" name="myaction" value="addquestion">Add Question</button>
+                                <button class="btn btn-danger" type="submit" name="myaction" value="remove">Remove</button>
+                            </div>
+                        </div>
+                   </form>
                 </div>
           </div>
         {% endfor %}
-   </div>
         </div>
+    </div>
 {%else%}
-HELLO there
+<div class="container">
+<div class="jumbotron"> HELLO there</div>
+</div>
 {%endif%}
 
 {% endblock%}

@@ -1,0 +1,171 @@
+{% extends 'users/header.html '%}
+{% block title %}
+    Index FeedBack App
+{% endblock %}
+
+{% block body %}
+<h1>This is Index of Feedback App</h1>
+<br>
+{%if user.is_authenticated%}
+<div class="container">
+    <div class="jumbotron">
+        <h1> ADD A Question </h1>
+        <h6> THIS IS FORM {{id}}</h6>
+        <br><br>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Question type</h3>
+                </div>
+                <div class="col-md-8">
+                    <form action="/feedback/manage" method="get">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="hidden" name="formid" value="{{id}}">
+                            <input type="hidden" name="myaction" value="addquestion">
+                            <select name="type" onchange="this.form.submit()" class="form-control form-control-lg" id ="mychoice">
+                                <option value="chk" {%if type == "chk" %} selected {%endif%}>Check-Box</option>
+                                <option value="cho" {%if type == "cho" %} selected {%endif%}>Choice</option>
+                                <option value="tx"  {%if type == "tx" %} selected {%endif%}>Text Area</option>
+                                <option value="rg"  {%if type == "rg" %} selected {%endif%}>Range</option>
+                            </select>
+                        </div>
+                     </form>
+                    <input type="hidden" name="type" value="{{request.type}}">
+                 </div>
+            </div>
+        </div>
+        <div class="jumbotron">
+            <form action="/feedback/manage" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="formid" value="{{id}}">
+                <input type="hidden" name="myaction" value="addquestion">
+                <input type="hidden" name="type" value="{{type}}">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>Question Description</h3>
+                    </div>
+                    <div class="col-md-8">
+
+                            <input type="text" name="question_description" class="form-control">
+
+                    </div>
+                </div>
+                <br>
+                {% if type == "cho" %}
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>OPTION 1</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="radio" name="r1" class="form-control form-control-md" checked>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="option1" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>OPTION 2</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="radio" name="r2" class="form-control form-control-md" checked>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="option2" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>OPTION 3</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <input checked="checked" type="radio" name="r3" class="form-control form-control-md">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="option3" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>OPTION 4</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <input checked="checked" type="radio" name="r4" class="form-control form-control-md">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="option4" class="form-control">
+                    </div>
+                </div>
+                {%elif type == "chk"%}
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>OPTION 1</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="checkbox" name="cb1" class="form-control form-control-md" checked>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="option1" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>OPTION 2</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="checkbox" name="cb2" class="form-control form-control-md" checked>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="option2" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>OPTION 3</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <input checked="checked" type="checkbox" name="cb3" class="form-control form-control-md">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="option3" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>OPTION 4</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <input checked="checked" type="checkbox" name="cb4" class="form-control form-control-md">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="option4" class="form-control">
+                    </div>
+                </div>
+                {% elif type == "tx" %}
+                <textarea rows="15" cols="100" name="mytextarea">Write Something</textarea>
+                {% elif type == "rg" %}
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Enter Range</strong>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="myrange" class="form-control">
+                    </div>
+                </div>
+                {% endif%}
+                <div class="row">
+                    <input type="submit" class="btn btn-success" value="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endif%}
+{%endblock%}

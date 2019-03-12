@@ -1,0 +1,20 @@
+{%extends 'users/header.html' %}
+{%block title %}MyForms{% endblock %}
+{%block body%}
+<center>
+    {% for form in userforms %}
+    <br>
+        {{form.form_heading}}
+    <br>
+        {{form.form_link}}
+    <br>
+        {{form.form_posted}}
+
+    <br>
+        {{form.form_status}}
+
+
+
+    {% endfor %}
+</center>
+{%endblock%}

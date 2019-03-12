@@ -4,9 +4,15 @@
 
 {% block body %}
 {% if user.is_authenticated %}
-  Hi {{ user.username}}!
+       <div class="jumbotron">
+            Hi {{ user.username}}!
+       </div>
 {% else %}
+ <div class="container">
+<br><br>     <div class="jumbotron">
   <p>You are not logged in</p>
   <a href="/users/login">login</a>
+         </div>
+ </div>
 {% endif %}
 {% endblock %}
