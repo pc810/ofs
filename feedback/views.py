@@ -6,6 +6,9 @@ from .forms import NameForm
 from django.contrib.auth.admin import User
 from .models import Form as MyForm
 from .models import Question as MyQuestion
+from .models import Answer as MyAnswer
+
+import re
 
 def index(request):
     template_name = 'feedback/index.html'
@@ -192,3 +195,41 @@ class UpdateForm(UpdateView):
     model = MyForm
     fields = ["form_heading", "form_status", "form_type"]
 
+def formResponse(request, formid):
+    userform = MyForm.objects.filter(pk=formid)[0]
+    questions = MyQuestion.objects.filter(form_id=formid)
+    return render(request,
+                  "response/form-answer.html",
+                  {
+                      "form": userform,
+                      "questions": questions,
+                  },
+                  )
+
+
+def subans(request):
+
+    formid = request.POST.get("formid", "")
+    questions = MyQuestion.objects.filter(form_id=formid)
+    for q in questions:
+        userans = MyAnswer()
+        userans.form = MyForm.objects.filter(pk=formid)[0]
+        userans.user = request.user
+        userans.question = q;
+        answer = ""
+        regex = re.compile("([A-z_ -*+0-9]+).\(,\)")
+        optionlist = regex.findall(q.ques_option)
+        if q.ques_type == 'chk':
+            for option in optionlist:
+                param = str(q.id) +"-"+ str(option)
+                if request.POST.get(param, "") == option:
+                    answer += str(option) + " (,)"
+        else:
+            param = str(q.id)
+            answer = request.POST.get(param, "")
+
+        userans.answer = answer
+
+        userans.save()
+
+    return redirect("/feedback/")

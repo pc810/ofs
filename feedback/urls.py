@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'manage', views.manage, name="manage"),
     url(r'^form/about/(?P<formid>[0-9]+)$', views.aboutForm, name="form-about"),
     url(r'^form/update/(?P<pk>[0-9]+)$', views.UpdateForm.as_view(), name="form-update"),
+    url(r'^formresp/(?P<formid>[0-9]+)$', views.formResponse, name="form-response"),
+    url(r'subans', views.subans, name="submitanswer"),
 ]
