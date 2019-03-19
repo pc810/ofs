@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Form
-from django.views.generic import CreateView, UpdateView, DeleteView
-from django.http import HttpResponse
+from django.views.generic import UpdateView, ListView
 from .forms import NameForm
 from django.contrib.auth.admin import User
 from .models import Form as MyForm
@@ -10,14 +8,25 @@ from .models import Answer as MyAnswer
 
 import re
 
-def index(request):
-    template_name = 'feedback/index.html'
-    if request.user.id:
-        userform = MyForm.objects.filter(user=request.user)
-        return render(request, template_name, {'userform': userform})
-    else:
-        return render(request, template_name)
 
+class IndexListView(ListView):
+    model = MyForm
+    template_name = 'feedback/index.html'
+    context_object_name = 'userform'
+    paginate_by = 2
+
+    # ordering = ['-form_posted']
+
+    def get_queryset(self):
+        return MyForm.objects.filter(user=self.request.user)
+# def index(request):
+#     template_name = 'feedback/index.html'
+#     if request.user.id:
+#         userform = MyForm.objects.filter(user=request.user)
+#         return render(request, template_name, {'userform': userform})
+#     else:
+#         return render(request, template_name)
+#
 
 def createForm(request):
         if request.method == 'POST':
@@ -31,7 +40,8 @@ def createForm(request):
                 myform.form_status = form.cleaned_data["form_status"]
                 myform.save()
 
-            return render(request, 'users/index.html', {'myform': myform})
+            #return render(request, 'users/index.html', {'myform': myform})
+            return redirect("/feedback/")
 
         else:
             form = NameForm()
@@ -221,7 +231,7 @@ def subans(request):
         optionlist = regex.findall(q.ques_option)
         if q.ques_type == 'chk':
             for option in optionlist:
-                param = str(q.id) +"-"+ str(option)
+                param = str(q.id) + "-" + str(option)
                 if request.POST.get(param, "") == option:
                     answer += str(option) + " (,)"
         else:
