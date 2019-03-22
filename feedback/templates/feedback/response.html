@@ -1,0 +1,67 @@
+{%extends 'users/header.html' %}
+{%block title %}Form{% endblock %}
+{%block body%}
+<div class="container">
+    <br>
+    <br>
+{% for entry in my_data_struct %}
+<div class="jumbotron">
+    <label>{{entry.2}}</label><br>
+
+
+    {% if entry.1 != "tx" %}
+    <canvas id="{{entry.0}}"></canvas>
+    <script>
+    {% block jquery %}
+        var mylabel = [];
+        {% for l in entry.4 %}
+            mylabel.push("{{l}}")
+        {% endfor %}
+
+        var ctx = document.getElementById('{{entry.0}}').getContext('2d');
+        var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: '{{entry.5}}',
+    // The data for our dataset
+    data: {
+
+        labels: mylabel,
+        datasets: [{
+            label: 'Count',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: {{ entry.3 }}
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+        scales: {
+        yAxes: [{
+            display: true,
+            ticks: {
+                beginAtZero: true   // minimum value will be 0.
+            }
+        }]
+    }
+    }
+});
+    {% endblock %}
+    </script>
+    {% else %}
+        <table class="table table-striped">
+        {% for feedback_text in entry.3 %}
+
+            <tr>
+                <td>
+                    {{feedback_text}}
+                </td>
+            </tr>
+
+        {% endfor %}
+        </table>
+    {% endif %}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

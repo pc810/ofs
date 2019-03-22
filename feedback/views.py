@@ -5,7 +5,6 @@ from django.contrib.auth.admin import User
 from .models import Form as MyForm
 from .models import Question as MyQuestion
 from .models import Answer as MyAnswer
-
 import re
 
 
@@ -182,7 +181,7 @@ def shareForm(request):
 
 
 def viewResponse(request):
-    return render(request, "feedback/myaction.html",{'myaction': "viewResponse", 'id': request.GET.get("formid", "")})
+    return mychart(request)
 
 
 def removeForm(request):
@@ -243,3 +242,87 @@ def subans(request):
         userans.save()
 
     return redirect("/feedback/")
+
+
+def mychart(request):
+    if request.method == "GET":
+        form_id = request.GET.get("formid", "")
+        if form_id != "":
+            my_data_struct = list()
+            regex = re.compile("([A-z_ -*+0-9]+).\(,\)")
+
+            questions = MyQuestion.objects.filter(form_id=form_id)
+
+            for q in questions:
+                response_list = list()
+                description = q.ques_text
+                type = q.ques_type
+                q_id = q.id
+                graph = "row"
+              #  print("Description :", description, " Type : ", type)
+                if q.ques_type == "rg":
+                    label = list(range(1, int(q.ques_option)+1))
+                    data = [0]*int(q.ques_option)
+                    graph = "bar"
+                    answers = MyAnswer.objects.filter(question_id=q.id)
+                    #print("Answers : ", answers)
+                    for a in answers:
+                        index = int(a.answer) - 1
+                        data[index] = data[index] + 1
+                    #print("Data : ", data)
+                if q.ques_type == "chk":
+                    label = list()
+                    data = [0] * int(q.quest_numb_option)
+                    graph = "bar"
+                    option_list = regex.findall(q.ques_option)
+                    for option in option_list:
+                        label.append(option)
+                    answers = MyAnswer.objects.filter(question_id=q.id)
+                    #print("Answers : ", answers)
+                    for a in answers:
+                        answers_list = regex.findall(a.answer)
+                        for each_answer in answers_list:
+                            index = label.index(each_answer)
+                            data[index] = data[index] + 1
+                    #print("Data : ", data)
+
+                if q.ques_type == "cho":
+                    label = list()
+                    data = [0] * int(q.quest_numb_option)
+                    graph = "bar"
+                    option_list = regex.findall(q.ques_option)
+                    for option in option_list:
+                        label.append(option)
+                    answers = MyAnswer.objects.filter(question_id=q.id)
+                    #print("Answers : ", answers)
+                    for a in answers:
+                        index = label.index(a.answer)
+                        data[index] = data[index] + 1
+                    #print("Data : ", data)
+
+                if q.ques_type == "tx":
+                    label = list()
+
+                    data = MyAnswer.objects.filter(question_id=q.id)[:10]
+                    graph = "row"
+#                print(description)
+ #               print(label)
+ #               print(data)
+
+                response_list.append(q_id)
+                response_list.append(type)
+                response_list.append(description)
+                response_list.append(data)
+                response_list.append(label)
+                response_list.append(graph)
+                my_data_struct.append(response_list)
+
+            return render(request, "feedback/response.html", {"my_data_struct": my_data_struct})
+            #return render(request, "feedback/myaction.html", {"my_data_struct": my_data_struct, 'id': request.GET.get("formid", "")})
+
+
+        else:
+            redirect("/feedback/")
+    else:
+        redirect("/feedback/")
+
