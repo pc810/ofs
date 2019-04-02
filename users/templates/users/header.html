@@ -12,6 +12,17 @@
 <body style="background-color:#9900ff;">
         <script>
             $(document).ready(function() {
+            var bgcolorslist = ["#3cba54","#f4c20d","#db3236","#4885ed","#9900ff"];
+            var bgcolorslist = ["rgb(60, 186, 84)",
+                                "rgb(222, 74, 112)",
+                                "rgb(238, 160, 0)",
+                                "rgb(72, 133, 237)",
+                                "rgb(153,0,255)",
+                                ];
+
+            var index = Math.floor((Math.random() * bgcolorslist.length));
+            document.body.style.background = bgcolorslist[index];
+
               {%block jquery %}{% endblock %}
             });
         </script>
@@ -22,7 +33,9 @@
             </div>
         <div class="collapse navbar-collapse">
         <ul class="nav">
+            {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="/feedback/">Home</a></li>
+            {% endif %}
             <li class="nav-item"><a class="nav-link" href="/users/about.html">About</a></li>
         </ul>
         </div>

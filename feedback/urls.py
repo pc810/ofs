@@ -3,6 +3,7 @@ from . import views
 from .views import IndexListView
 
 app_name = "feedback"
+
 urlpatterns = [
     #url(r'^$', views.index, name="feedback-index"),
     # url(r'form/add$', views.CreateFormClass.as_view(), name="form-add"),

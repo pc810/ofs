@@ -1,0 +1,31 @@
+{%extends 'users/header.html' %}
+{%block title %}Form{% endblock %}
+{%block body%}
+<div class="container">
+    <br><br>
+    <div class="jumbotron">
+        <center>
+
+            <form action="/feedback/manage" method="get">
+                        {% csrf_token %}
+                    <input type="hidden" value="{{formid}}" name="formid">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-md-4">
+                            Email
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" name="email" class="form-control">
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button class="btn btn-success" type="submit" name="share" value="share">Share</button>
+                                </div>
+                            </div>
+                    </div>
+            </form>
+        </center>
+    </div>
+</div>
+{% endblock %}

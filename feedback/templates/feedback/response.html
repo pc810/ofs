@@ -6,7 +6,7 @@
     <br>
 {% for entry in my_data_struct %}
 <div class="jumbotron">
-    <label>{{entry.2}}</label><br>
+    <h3>{{entry.2}}</h3><br>
 
 
     {% if entry.1 != "tx" %}
@@ -14,10 +14,18 @@
     <script>
     {% block jquery %}
         var mylabel = [];
+        var mybgColor = [];
+        var mybColor = [];
         {% for l in entry.4 %}
-            mylabel.push("{{l}}")
+            mylabel.push("{{l}}");
         {% endfor %}
 
+        {% for l in entry.6 %}
+            mybgColor.push("{{l}}");
+        {% endfor %}
+        {% for l in entry.7 %}
+            mybColor.push("{{l}}");
+        {% endfor %}
         var ctx = document.getElementById('{{entry.0}}').getContext('2d');
         var chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -28,8 +36,22 @@
         labels: mylabel,
         datasets: [{
             label: 'Count',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: mybgColor,
+            borderColor: mybColor,
+            <!--backgroundColor: 'rgb(255, 99, 132)',-->
+            <!--borderColor: 'rgb(255, 99, 132)',-->
+             <!--backgroundColor: [-->
+                <!--"rgba(255, 99, 132, 0.2)",-->
+                <!--'rgba(54, 162, 235, 0.2)',-->
+                <!--'rgba(255, 206, 86, 0.2)',-->
+                <!--'rgba(75, 192, 192, 0.2)',-->
+            <!--],-->
+            <!--borderColor: [-->
+                <!--'rgba(255, 99, 132, 1)',-->
+                <!--'rgba(54, 162, 235, 1)',-->
+                <!--'rgba(255, 206, 86, 1)',-->
+                <!--'rgba(75, 192, 192, 1)',-->
+            <!--],-->
             data: {{ entry.3 }}
         }]
     },

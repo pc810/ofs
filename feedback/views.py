@@ -5,6 +5,7 @@ from django.contrib.auth.admin import User
 from .models import Form as MyForm
 from .models import Question as MyQuestion
 from .models import Answer as MyAnswer
+from django.contrib.auth.decorators import login_required
 import re
 
 
@@ -177,7 +178,8 @@ def editForm(request):
 
 
 def shareForm(request):
-    return render(request, "feedback/myaction.html",{'myaction': "share", 'id': request.GET.get("formid", "")})
+    return render(request, "feedback/share.html", {'formid': request.GET.get("formid", "")})
+    #return render(request, "feedback/myaction.html",{'myaction': "share", 'id': request.GET.get("formid", "")})
 
 
 def viewResponse(request):
@@ -253,18 +255,43 @@ def mychart(request):
 
             questions = MyQuestion.objects.filter(form_id=form_id)
 
+            bgColor = [
+                'rgba(31, 153, 234, 1)',
+                'rgba(229, 102, 221, 1)',
+                'rgba(99, 217, 207, 1)',
+                'rgba(226, 54, 60, 1)',
+                'rgba(209, 108, 0, 1)',
+                'rgba(93, 241, 30, 1)'
+            ]
+            bColor = [
+                'rgba(10, 112, 255, 1)',
+                'rgba(166, 28, 157, 1)',
+                'rgba(42, 172, 162, 1)',
+                'rgba(156, 22, 27, 1)',
+                'rgba(138, 71, 0, 1)',
+                'rgba(45, 129, 8, 1)'
+            ]
+            num_color = 6
             for q in questions:
                 response_list = list()
                 description = q.ques_text
                 type = q.ques_type
                 q_id = q.id
                 graph = "row"
+                backgroundColor = list()
+                borderColor = list()
               #  print("Description :", description, " Type : ", type)
                 if q.ques_type == "rg":
                     label = list(range(1, int(q.ques_option)+1))
                     data = [0]*int(q.ques_option)
                     graph = "bar"
                     answers = MyAnswer.objects.filter(question_id=q.id)
+
+
+                    for i in range(int(q.ques_option)):
+                        backgroundColor.append(bgColor[i%num_color])
+                        borderColor.append(bColor[i%num_color])
+
                     #print("Answers : ", answers)
                     for a in answers:
                         index = int(a.answer) - 1
@@ -278,6 +305,9 @@ def mychart(request):
                     for option in option_list:
                         label.append(option)
                     answers = MyAnswer.objects.filter(question_id=q.id)
+                    for i in range(int(q.quest_numb_option)):
+                        backgroundColor.append(bgColor[i%num_color])
+                        borderColor.append(bColor[i%num_color])
                     #print("Answers : ", answers)
                     for a in answers:
                         answers_list = regex.findall(a.answer)
@@ -294,6 +324,9 @@ def mychart(request):
                     for option in option_list:
                         label.append(option)
                     answers = MyAnswer.objects.filter(question_id=q.id)
+                    for i in range(int(q.quest_numb_option)):
+                        backgroundColor.append(bgColor[i%num_color])
+                        borderColor.append(bColor[i%num_color])
                     #print("Answers : ", answers)
                     for a in answers:
                         index = label.index(a.answer)
@@ -305,16 +338,16 @@ def mychart(request):
 
                     data = MyAnswer.objects.filter(question_id=q.id)[:10]
                     graph = "row"
-#                print(description)
- #               print(label)
- #               print(data)
 
-                response_list.append(q_id)
-                response_list.append(type)
-                response_list.append(description)
-                response_list.append(data)
-                response_list.append(label)
-                response_list.append(graph)
+
+                response_list.append(q_id) #0
+                response_list.append(type) #1
+                response_list.append(description) #2
+                response_list.append(data)  #3
+                response_list.append(label) #4
+                response_list.append(graph) #5
+                response_list.append(backgroundColor) #6
+                response_list.append(borderColor) #7
                 my_data_struct.append(response_list)
 
             return render(request, "feedback/response.html", {"my_data_struct": my_data_struct})

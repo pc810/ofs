@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import re
 from django.urls import reverse
 
+
 class Form(models.Model):
     FORM_STATUS = (
         ('AC', 'active'),
@@ -15,6 +16,9 @@ class Form(models.Model):
     form_posted = models.DateField(auto_now=True)
     form_status = models.CharField(choices=FORM_STATUS, max_length=10)
     form_type = models.CharField(max_length=50, default="custom")
+
+    class Meta:
+        ordering = ["-form_posted"]
 
     def get_absolute_url(self):
         return reverse('feedback:feedback-index')
@@ -43,6 +47,7 @@ class Question(models.Model):
         regex = re.compile("([A-z_ -*+0-9]+).\(,\)")
         return regex.findall(self.ques_option)
 
+
 class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
@@ -52,3 +57,8 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer
+
+
+class response_user_list(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE)
