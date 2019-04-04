@@ -4,13 +4,24 @@
 <div class="container">
     <br>
     <br>
+ <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#" aria-selected="true">Summary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="formrespindividual/{{formid}}" class="nav-link active">Individual</a>
+                            </li>
+                        </ul>
+    <br>
 {% for entry in my_data_struct %}
 <div class="jumbotron">
+
     <h3>{{entry.2}}</h3><br>
 
 
     {% if entry.1 != "tx" %}
     <canvas id="{{entry.0}}"></canvas>
+
     <script>
     {% block jquery %}
         var mylabel = [];
@@ -26,6 +37,8 @@
         {% for l in entry.7 %}
             mybColor.push("{{l}}");
         {% endfor %}
+
+
         var ctx = document.getElementById('{{entry.0}}').getContext('2d');
         var chart = new Chart(ctx, {
         // The type of chart we want to create
