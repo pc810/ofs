@@ -388,7 +388,7 @@ def shareEmail(request):
     fid = request.GET.get("formid", None)
     emails = request.GET.get("email", None)
     feedback_link = "http://127.0.0.1:8000/feedback/formresp/"+fid
-    lis = emails.split()
+    lis = emails.split(",")
     for i in range(0, len(lis)):
         lis[i] = lis[i].strip(' ')
         us = User.objects.filter(email=lis[i])[0]
@@ -397,7 +397,7 @@ def shareEmail(request):
         r1.form = MyForm.objects.filter(pk=fid)[0]
         mail_body = " Your Feedback Can Be Recorded By Using : " + feedback_link
         send_mail('FEEDBACK FORM ', mail_body, settings.EMAIL_HOST_USER, [lis[i]], fail_silently=False)
-        if response_user_list.objects.filter(user=us)[0] is None:
+        if response_user_list.objects.filter(user=us) is None:
             r1.save()
     #SUCCESS MESSAGE AND FAILURE HANDLING IS LEFT
     return redirect("/feedback")

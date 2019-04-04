@@ -15,6 +15,6 @@ urlpatterns = [
     url(r'^form/update/(?P<pk>[0-9]+)$', views.UpdateForm.as_view(), name="form-update"),
     url(r'^formresp/(?P<formid>[0-9]+)$', views.formResponse, name="form-response"),
     url(r'subans', views.subans, name="submitanswer"),
-    url(r'^formrespindividual/(?P<formid>[0-9]+)$', views.IndividualFormAns, name="individual-resp"),
-    url(r'^formrespindividual/userresp/', views.UserResp, name="user-resp"),
+    #url(r'^formrespindividual/(?P<formid>[0-9]+)$', views.IndividualFormAns, name="individual-resp"),
+    #url(r'^formrespindividual/userresp/', views.UserResp, name="user-resp"),
 ]
