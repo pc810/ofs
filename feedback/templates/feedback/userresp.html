@@ -1,0 +1,55 @@
+{% extends 'users/header.html' %}
+{%block title%}
+    user response
+{%endblock%}
+{%block body%}
+<br>
+<br>
+<div class="container jumbotron" style="background-color:#fffae6;">
+    <h1>{{form}}</h1>
+    <br>
+    <h4>Questions: </h4>
+    <br>
+
+
+    {%for userresp in resp%}
+    <br><br><br>
+    <div class="card border-primary">
+        <div class="card-header">
+            <div class="row">
+                <font size="5">
+                    {{userresp.ques_text}}
+                </font>
+                <div class="ml-auto">
+                    {% if userresp.ques_type == "chk" %}
+                    <img src="https://image.flaticon.com/icons/png/512/48/48742.png" alt="{{question.ques_type}}" width="30" height="30">
+                    {% elif userresp.ques_type == "cho" %}
+                    <img src="https://png.pngtree.com/svg/20160616/235e93e18b.svg" alt="{{question.ques_type}}" width="40" height="37">
+                    {% elif userresp.ques_type == "tx" %}
+                    <img src="https://image.flaticon.com/icons/png/512/15/15462.png" alt="{{question.ques_type}}" width="40" height="37">
+                    {% elif userresp.ques_type == "rg" %}
+                    <img src="https://www.freeiconspng.com/uploads/black-star-icon-6.png" alt="{{question.ques_type}}" width="40" height="37">
+                    {%else%}
+                    {{userresp.ques_type}}
+                    {%endif%}
+                </div>
+            </div>
+            <div class="card-body">
+                {%if userresp.ques_type == "chk" %}
+                    <h4>{{userresp.answer}}</h4>
+                {% elif userresp.ques_type == "cho" %}
+                    <h4>{{userresp.answer}}</h4>
+                {% elif userresp.ques_type == "rg" %}
+                    <h4>{{userresp.answer}} out of {{userresp.ques_option}}</h4>
+                {%else%}
+                    <h4>{{userresp.answer}}</h4>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+
+
+</div>
+
+{%endblock%}

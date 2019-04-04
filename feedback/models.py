@@ -26,6 +26,9 @@ class Form(models.Model):
     def __str__(self):
         return self.form_heading
 
+    class Meta:
+        ordering = ["-form_posted"]
+
 
 class Question(models.Model):
     QUES_TYPE = (
@@ -62,3 +65,4 @@ class Answer(models.Model):
 class response_user_list(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
+
