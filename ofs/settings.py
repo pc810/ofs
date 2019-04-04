@@ -126,7 +126,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #login redirection
-
+LOGIN_URL = '/users/login'
 LOGIN_REDIRECT_URL = '/feedback/'
 LOGOUT_REDIRECT_URL = '/'
 

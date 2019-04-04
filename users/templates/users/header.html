@@ -37,9 +37,11 @@
         <ul class="nav">
             {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="/feedback/">Home</a></li>
-            {% endif %}
+            <li class="nav-item"><a class="nav-link" href="/users/about.html">About</a></li>
+            {% else %}
             <li class="nav-item"><a class="nav-link" href="/users/">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="/users/about.html">About</a></li>
+            {% endif %}
         </ul>
         </div>
             {% if user.is_authenticated %}

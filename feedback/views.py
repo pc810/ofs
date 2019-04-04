@@ -6,10 +6,16 @@ from .models import Form as MyForm
 from .models import Question as MyQuestion
 from .models import Answer as MyAnswer
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import View
 import re
 
+class LoginRequired(View):
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(LoginRequired, self).dispatch(*args, **kwargs)
 
-class IndexListView(ListView):
+class IndexListView(LoginRequired,ListView):
     model = MyForm
     template_name = 'feedback/index.html'
     context_object_name = 'userform'
@@ -54,9 +60,13 @@ def displayForm(request):
         q = MyQuestion()
         userform = MyForm.objects.filter(user=request.user)
         return render(request, "feedback/userform.html", {"userforms": userform})
-
+    else:
+        return redirect('users/login/')
 
 def manage(request):
+    if not request.user.is_authenticated:
+        return redirect('users/login/')
+
     if request.POST.get("myaction", "") == "addquestion":
         return addQuestion(request)
 
@@ -192,6 +202,9 @@ def removeForm(request):
 
 
 def aboutForm(request, formid):
+    if not request.user.is_authenticated:
+        return redirect('/users/login/')
+
     userform = MyForm.objects.filter(pk=formid)[0]
     questions = MyQuestion.objects.filter(form=userform)
     return render(request,
@@ -202,11 +215,13 @@ def aboutForm(request, formid):
                   )
 
 
-class UpdateForm(UpdateView):
+class UpdateForm(LoginRequired,UpdateView):
     model = MyForm
     fields = ["form_heading", "form_status", "form_type"]
 
 def formResponse(request, formid):
+    if not request.user.is_authenticated:
+        return redirect('/users/login/')
     userform = MyForm.objects.filter(pk=formid)[0]
     questions = MyQuestion.objects.filter(form_id=formid)
     return render(request,
@@ -219,7 +234,8 @@ def formResponse(request, formid):
 
 
 def subans(request):
-
+    if not request.user.is_authenticated:
+        return redirect('/users/login/')
     formid = request.POST.get("formid", "")
     questions = MyQuestion.objects.filter(form_id=formid)
     for q in questions:
@@ -247,6 +263,8 @@ def subans(request):
 
 
 def mychart(request):
+    if not request.user.is_authenticated:
+        return redirect('/users/login/')
     if request.method == "GET":
         form_id = request.GET.get("formid", "")
         if form_id != "":
