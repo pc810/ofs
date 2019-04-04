@@ -1,6 +1,125 @@
 {% extends 'users/header.html' %}
 {%block title%}INDEX PAGE{%endblock%}
 
+{%block jquery %}
+var i = 0;
+
+var textarray = ['Create beautiful forms','Create effortless forms','Create polished forms'];
+var index = Math.floor((Math.random() * textarray.length));
+var txt = textarray[index];
+var speed = 1;
+
+
+setInterval(function(){if (i < txt.length) {
+    document.getElementById("demo").innerHTML += txt.charAt(i);
+    i++;
+    //setTimeout(typeWriter, speed);
+  }}, 100);
+{% endblock %}
+
 {%block body%}
-<div class="container"><br><br><div class="jumbotron">HELLO</div> </div>
+<div class="container">
+    <br>
+    <br>
+    <div class="jumbotron">
+            <img src="https://res-2.cloudinary.com/toolmuse/image/upload/production_1_fwvg7j" alt="BRAND" height="400px" width="400px">
+            <font style="font-family: 'Abril Fatface', cursive;" size="15" id="demo"></font>
+    </div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="http://www.cantonstanstead.ca/wp-content/uploads/2018/09/etude-de-march%C3%A9-1.png" width="400" height="250">
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6">
+                <h1>Get answers fast</h1>
+                <br><br>
+                <font size="4">Plan your next camping trip, manage event registrations, whip up a quick poll, collect email addresses for a newsletter, create a pop quiz, and much more.</font>
+            </div>
+        </div>
+    </div>
+<div class="jumbotron">
+        <div class="row">
+
+            <div class="col-md-4">
+                <h1>Survey with style</h1>
+                <br><br>
+                <font size="4">Use your own photo or logo, and Forms will pick just the right colors to complete your own unique form, or choose from a set of curated themes to set the tone.</font>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+                <img src="https://www.benchmarkemail.com/images/free-email-templates/email-templates-header.png" width="400" height="250">
+            </div>
+        </div>
+</div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://lh3.googleusercontent.com/IPawuhzDWGWOCCGqS6Aulp8hnp_usor1NNNifVbwrwmb4an_A1KIbbtN-YRzIoeQQxiKi3-c_0F4Og36vM9X8wnJCs5uj17cQu7S=s800" width="300" height="250">
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-4">
+                <h1>Q&A, your way</h1>
+                <br><br>
+                <font size="4">Choose from a bunch of question options, from multiple choice to dropdowns to a linear scale.</font>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <div class="row">
+
+            <div class="col-md-4">
+                <h1>Create or respond on the go</h1>
+                <br><br>
+                <font size="4">Forms is responsive, so that means it’s easy (and beautiful) to make, edit, and respond to forms on screens big and small.</font>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+                <img src="https://blog.marketo.com/content/uploads/2017/01/4-Effective-Methods-to-Increase-Your-Survey-Response-Rates.jpg" width="400" height="250">
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://cdn0.iconfinder.com/data/icons/infographic-bar-vol-9/512/1-512.png" width="400" height="250">
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6">
+                <h1>Organized & analyzed</h1>
+                <br><br>
+                <font size="4">-Responses to your surveys are neatly and automatically collected in Forms, with real time response info and charts.</font>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <div class="row">
+
+            <div class="col-md-4">
+                <h1>Get started now</h1>
+                <br><br>
+                <font size="4">Ready to build your first survey? It’s free and easy with Us.
+                    
+
+                </font>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+                <img src="https://eci.gov.in/uploads/monthly_2018_09/list-2389219_960_720.thumb.png.0e0291ad83035dee4aa45086fe530132.png" width="300" height="300">
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

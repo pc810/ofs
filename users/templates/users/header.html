@@ -2,6 +2,7 @@
 <html lang="en">
 <title>{%block title%}{%endblock%}</title>
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -28,14 +29,16 @@
         </script>
         <div class="container-fluid">
         <nav class="navbar navbar-expand-sm bg-white">
-            <div class="navbar-brand">
-                <a href="/users/">BRAND</a>
-            </div>
+                <div class="navbar-brand">
+                    <a href="/users/"><img src="https://res-2.cloudinary.com/toolmuse/image/upload/production_1_fwvg7j" alt="BRAND" height="30px" width="30px"> </a>
+                </div>
+
         <div class="collapse navbar-collapse">
         <ul class="nav">
             {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="/feedback/">Home</a></li>
             {% endif %}
+            <li class="nav-item"><a class="nav-link" href="/users/">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="/users/about.html">About</a></li>
         </ul>
         </div>
