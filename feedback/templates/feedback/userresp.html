@@ -36,7 +36,10 @@
             </div>
             <div class="card-body">
                 {%if userresp.ques_type == "chk" %}
-                    <h4>{{userresp.answer}}</h4>
+                    {%for option in userresp.answer_as_list %}
+                <h4>{{option}}</h4>
+                    {%endfor%}
+                    <!--<h4>{{userresp.answer}}</h4>-->
                 {% elif userresp.ques_type == "cho" %}
                     <h4>{{userresp.answer}}</h4>
                 {% elif userresp.ques_type == "rg" %}
@@ -48,8 +51,5 @@
         </div>
     </div>
     {%endfor%}
-
-
 </div>
-
 {%endblock%}

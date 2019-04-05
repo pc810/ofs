@@ -10,12 +10,8 @@
     <br>
     <h4>Individual Responser</h4>
     <br>
-
-
     {%for nameuser in name%}
     <a href="userresp?userid={{nameuser.id}}&formid={{form_id}}"><h3>{{nameuser.username}}</h3>  </a>
     {%endfor%}
-
-
 </div>
 {%endblock%}

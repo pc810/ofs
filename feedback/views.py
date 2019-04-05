@@ -93,8 +93,8 @@ def manage(request):
         return removeForm(request)
     else:
         return shareEmail(request)
-        #return render(request, "feedback/myaction.html",
-                      #{'myaction': request.GET.get("myaction", ""), 'id': request.GET.get("formid", "")})
+        # return render(request, "feedback/myaction.html",
+        # {'myaction': request.GET.get("myaction", ""), 'id': request.GET.get("formid", "")})
 
 
 def addQuestion(request):
@@ -226,7 +226,7 @@ def aboutForm(request, formid):
                   )
 
 
-class UpdateForm(LoginRequired,UpdateView):
+class UpdateForm(LoginRequired, UpdateView):
     model = MyForm
     fields = ["form_heading", "form_status", "form_type"]
 
@@ -269,9 +269,8 @@ def UserResp(request):
                   })
 
 
+@login_required()
 def formResponse(request, formid):
-    if not request.user.is_authenticated:
-        return redirect('/users/login/')
     userform = MyForm.objects.filter(pk=formid)[0]
     questions = MyQuestion.objects.filter(form_id=formid)
     userchk = Myresp.objects.filter(form_id=formid, user_id=request.user)
@@ -289,8 +288,6 @@ def formResponse(request, formid):
 
 
 def subans(request):
-    if not request.user.is_authenticated:
-        return redirect('/users/login/')
     formid = request.POST.get("formid", "")
     questions = MyQuestion.objects.filter(form_id=formid)
     respform = Myresp()
@@ -435,14 +432,15 @@ def mychart(request):
     else:
         redirect("/feedback/")
 
+
 def shareEmail(request):
     fid = request.GET.get("formid", None)
     emails = request.GET.get("email", None)
-    feedback_link = "http://127.0.0.1:8000/feedback/formresp/"+fid
+    feedback_link = "http://192.168.1.107:8000/feedback/formresp/" + fid
     lis = emails.split(",")
     for i in range(0, len(lis)):
         lis[i] = lis[i].strip(' ')
         mail_body = " Your Feedback Can Be Recorded By Using : " + feedback_link
         send_mail('FEEDBACK FORM ', mail_body, settings.EMAIL_HOST_USER, [lis[i]], fail_silently=False)
-    #SUCCESS MESSAGE AND FAILURE HANDLING IS LEFT
+    # SUCCESS MESSAGE AND FAILURE HANDLING IS LEFT
     return redirect("/feedback")

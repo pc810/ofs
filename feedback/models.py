@@ -61,6 +61,10 @@ class Answer(models.Model):
     def __str__(self):
         return self.answer
 
+    def answer_as_list(self):
+        regex = re.compile("([A-z_ -*+0-9]+).\(,\)")
+        return regex.findall(self.answer)
+
 
 class response_user_list(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
