@@ -7,6 +7,8 @@ from .models import Form as MyForm
 from .models import Question as MyQuestion
 from .models import Answer as MyAnswer
 from .models import response_user_list as Myresp
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib.auth.admin import User as Myuser
 from django.utils.decorators import method_decorator
 from django.views.generic import View
@@ -90,8 +92,9 @@ def manage(request):
     elif request.GET.get("myaction", "") == "remove":
         return removeForm(request)
     else:
-        return render(request, "feedback/myaction.html",
-                      {'myaction': request.GET.get("myaction", ""), 'id': request.GET.get("formid", "")})
+        return shareEmail(request)
+        #return render(request, "feedback/myaction.html",
+                      #{'myaction': request.GET.get("myaction", ""), 'id': request.GET.get("formid", "")})
 
 
 def addQuestion(request):
@@ -431,3 +434,15 @@ def mychart(request):
             redirect("/feedback/")
     else:
         redirect("/feedback/")
+
+def shareEmail(request):
+    fid = request.GET.get("formid", None)
+    emails = request.GET.get("email", None)
+    feedback_link = "http://127.0.0.1:8000/feedback/formresp/"+fid
+    lis = emails.split(",")
+    for i in range(0, len(lis)):
+        lis[i] = lis[i].strip(' ')
+        mail_body = " Your Feedback Can Be Recorded By Using : " + feedback_link
+        send_mail('FEEDBACK FORM ', mail_body, settings.EMAIL_HOST_USER, [lis[i]], fail_silently=False)
+    #SUCCESS MESSAGE AND FAILURE HANDLING IS LEFT
+    return redirect("/feedback")
