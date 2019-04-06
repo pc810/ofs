@@ -4,10 +4,10 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <br><br><div class="jumbotron"><h1>This is Index of Feedback App</h1></div>
+<!--<div class="container">-->
+    <!--<br><br><div class="jumbotron"><h1>This is Index of Feedback App</h1></div>-->
 
-</div>
+<!--</div>-->
 <br>
 {%if user.is_authenticated%}
 <div class="container">
@@ -97,7 +97,7 @@
                             <div class="ml-auto">
                                 <button class="btn btn-success" type="submit" name="myaction" value="addquestion">Add Question</button>
                                 <button class="btn btn-danger" type="submit" name="myaction" value="remove">Remove</button>
-                                <a href="formresp/{{form.id}}">Give answer</a>
+                                <!--<a href="formresp/{{form.id}}">Give answer</a>-->
                             </div>
                         </div>
                    </form>
@@ -129,6 +129,17 @@
         </div>
     <div class="jumbotron">
         Make Respose
+        <br>
+        {% for form in responseform %}&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="card border-primary" style="width: 40rem;">
+
+
+                     <center><font size="7">{{form.form.form_heading}}</font></center>
+                    <input type="hidden" name="formid" value="{{form.form.id}}">
+                <br><a href="formresp/{{form.form.id}}" class="btn btn-success">Give answer</a>
+            </div>
+          </div>
+        {% endfor %}
     </div>
     </div>
 {%else%}

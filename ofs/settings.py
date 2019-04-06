@@ -139,4 +139,4 @@ EMAIL_HOST_USER = 'swarproject@gmail.com'
 EMAIL_HOST_PASSWORD = '123456swar'
 #
 
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']

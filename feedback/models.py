@@ -70,3 +70,12 @@ class response_user_list(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.form.__str__()+self.user.__str__()
+
+class response_user(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.form.__str__()+self.user.__str__()

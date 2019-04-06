@@ -12,7 +12,7 @@ from django.conf import settings
 from django.contrib.auth.admin import User as Myuser
 from django.utils.decorators import method_decorator
 from django.views.generic import View
-
+from .models import response_user as rf
 from django.contrib.auth.decorators import login_required
 import re
 
@@ -23,26 +23,34 @@ class LoginRequired(View):
         return super(LoginRequired, self).dispatch(*args, **kwargs)
 
 
-class IndexListView(LoginRequired, ListView):
-    model = MyForm
-    template_name = 'feedback/index.html'
-    context_object_name = 'userform'
-    paginate_by = 2
-
-    # ordering = ['-form_posted']
-
-    def get_queryset(self):
-        return MyForm.objects.filter(user=self.request.user)
-
-
-# def index(request):
+# class IndexListView(LoginRequired, ListView):
+#     model = MyForm
 #     template_name = 'feedback/index.html'
-#     if request.user.id:
-#         userform = MyForm.objects.filter(user=request.user)
-#         return render(request, template_name, {'userform': userform})
-#     else:
-#         return render(request, template_name)
+#     context_object_name = 'userform'
+#     paginate_by = 2
 #
+#     # ordering = ['-form_posted']
+#
+#     def get_queryset(self):
+#         return MyForm.objects.filter(user=self.request.user)
+#
+
+def index(request):
+    template_name = 'feedback/index.html'
+    if request.user.id:
+        print(request.user.id)
+        userform = MyForm.objects.filter(user=request.user)
+        myrf = rf.objects.filter(user=request.user)
+        print(myrf)
+        responseform = list()
+        for myform in myrf:
+            given = MyAnswer.objects.filter(user=request.user, form=myform.form.id)
+            if not given:
+                responseform.append(myform)
+        return render(request, template_name, {'userform': userform , 'responseform':responseform})
+    else:
+        return render(request, template_name)
+
 
 
 def createForm(request):
@@ -274,17 +282,20 @@ def formResponse(request, formid):
     userform = MyForm.objects.filter(pk=formid)[0]
     questions = MyQuestion.objects.filter(form_id=formid)
     userchk = Myresp.objects.filter(form_id=formid, user_id=request.user)
-    if not userchk:
-        return render(request,
+    given = MyAnswer.objects.filter(user=request.user,form_id=formid)
+    if given:
+        #html = "<html><body><h1>You already responded</h1></body></htmL>"
+        #return HttpResponse(html)
+        message = "You already responded"
+        return render(request, "feedback/message.html", {"message":message})
+
+    return render(request,
                       "response/form-answer.html",
                       {
                           "form": userform,
                           "questions": questions,
                       },
                       )
-    else:
-        html = "<html><body><h1>You already responded</h1></body></htmL>"
-        return HttpResponse(html)
 
 
 def subans(request):
@@ -440,7 +451,17 @@ def shareEmail(request):
     lis = emails.split(",")
     for i in range(0, len(lis)):
         lis[i] = lis[i].strip(' ')
-        mail_body = " Your Feedback Can Be Recorded By Using : " + feedback_link
-        send_mail('FEEDBACK FORM ', mail_body, settings.EMAIL_HOST_USER, [lis[i]], fail_silently=False)
+        print(lis[i])
+        usermy = Myuser.objects.filter(email=lis[i])[0]
+        print(usermy)
+        respform = rf()
+        respform.user = usermy
+        respform.form = MyForm.objects.filter(pk=fid)[0]
+        given = rf.objects.filter(user=request.user, form=respform.form)
+        if not given:
+            respform.save()
+            mail_body = " Your Feedback Can Be Recorded By Using : " + feedback_link
+            send_mail('FEEDBACK FORM ', mail_body, settings.EMAIL_HOST_USER, [lis[i]], fail_silently=False)
+
     # SUCCESS MESSAGE AND FAILURE HANDLING IS LEFT
     return redirect("/feedback")
