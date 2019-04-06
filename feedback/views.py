@@ -35,6 +35,125 @@ class LoginRequired(View):
 #         return MyForm.objects.filter(user=self.request.user)
 #
 
+
+def delete_question(request):
+    if request.user.is_authenticated:
+        qid = request.POST.get("qid", "")
+        if qid != "":
+            q = MyQuestion.objects.filter(pk=qid)[0]
+            if q:
+                q.delete()
+                message = "Deleted Successfully"
+            else:
+                message = "Not Able To Delete"
+        else:
+            message = "Not Such Question"
+    else:
+        message = "Unauthorised Access"
+    return render(request, "feedback/message.html", {"message": message})
+
+def updatequestion(request):
+    if request.method == "GET":
+        qid = request.GET.get("qid","")
+        if qid == "":
+            return redirect("/users/")
+
+
+        if not request.user.is_authenticated:
+            return redirect("/users/")
+
+        user = request.user
+        question = MyQuestion.objects.filter(pk=qid)[0]
+
+        form = MyForm.objects.filter(question=question)[0]
+        print(form.user)
+        print(user)
+
+        if form.user != user:
+            print("ret")
+            return redirect("/users/")
+        else:
+            ques_text = question.ques_text
+            type = question.ques_type
+            optionlist = None
+            if type == "chk" or type == "cho":
+                regex = re.compile("([A-z_ -*+0-9]+).\(,\)")
+                optionlist = regex.findall(question.ques_option)
+            if type == "rg" or type=="tx":
+                optionlist = question.ques_option
+            formurl = "/feedback/question/delete/",question.id
+            return render(request,"feedback/update_question.html",
+                          {"ques_text":ques_text,
+                           "optionlist":optionlist,
+                           "type":type,
+                           "qid":qid
+                           })
+    if request.method == "POST":
+        qid = request.POST.get("qid","")
+        if qid is None:
+            return redirect("/feedback/")
+
+        type = request.POST.get("type","")
+        ques_text = ""
+        quest_numb_option = 0
+        if type == 'cho':
+            option1 = request.POST.get("option1", "")
+            option2 = request.POST.get("option2", "")
+            option3 = request.POST.get("option3", "")
+            option4 = request.POST.get("option4", "")
+
+            if option1 != "":
+                ques_text += option1 + " (,)"
+                quest_numb_option += 1
+            if option2 != "":
+                ques_text += option2 + " (,)"
+                quest_numb_option += 1
+            if option3 != "":
+                ques_text += option3 + " (,)"
+                quest_numb_option += 1
+            if option4 != "":
+                ques_text += option4 + " (,)"
+                quest_numb_option += 1
+        elif type == 'chk':
+            option1 = request.POST.get("option1", "")
+            option2 = request.POST.get("option2", "")
+            option3 = request.POST.get("option3", "")
+            option4 = request.POST.get("option4", "")
+
+            if option1 != "":
+                ques_text += option1 + " (,)"
+                quest_numb_option += 1
+            if option2 != "":
+                ques_text += option2 + " (,)"
+                quest_numb_option += 1
+            if option3 != "":
+                ques_text += option3 + " (,)"
+                quest_numb_option += 1
+            if option4 != "":
+                ques_text += option4 + " (,)"
+                quest_numb_option += 1
+
+        elif type == 'tx':
+            mytextarea = request.POST.get("tx", "")
+            ques_text = mytextarea
+            quest_numb_option += 1
+        elif type == 'rg':
+            myrange = request.POST.get("range", "")
+            ques_text = myrange
+            quest_numb_option += 1
+            regex = re.compile(r'^([0-9]+)$')
+            if not regex.match(ques_text):
+                return render(request, "feedback/message.html", {"message": "Not valid Input"})
+
+
+        userquestion = MyQuestion.objects.filter(pk=qid)[0]
+        userquestion.quest_numb_option = quest_numb_option
+        userquestion.ques_text = request.POST.get("ques_text", "")
+        userquestion.ques_option = ques_text
+        userquestion.save()
+        return redirect("/feedback/form/about/"+str(userquestion.form.id))
+
+
 def index(request):
     template_name = 'feedback/index.html'
     if request.user.id:
@@ -44,13 +163,12 @@ def index(request):
         print(myrf)
         responseform = list()
         for myform in myrf:
-            given = MyAnswer.objects.filter(user=request.user, form=myform.form.id)
+            given = MyAnswer.objects.filter(user=request.user, form=myform.form)
             if not given:
                 responseform.append(myform)
         return render(request, template_name, {'userform': userform , 'responseform':responseform})
     else:
         return render(request, template_name)
-
 
 
 def createForm(request):
@@ -178,9 +296,14 @@ def addQuestion(request):
         userquestion.ques_text = request.POST.get("question_description", "")
         userquestion.ques_type = request.POST.get("type", "")
         userquestion.ques_option = ques_text
-
+        if userquestion.ques_type == "rg":
+            regex = re.compile(r'^([0-9]+)$')
+            if not regex.match(userquestion.ques_option):
+                return render(request, "feedback/message.html", {"message":"Not valid Input"})
+            userquestion.ques_option = int(userquestion.ques_option)
         userquestion.save()
-        return render(request, 'users/index.html')
+        #return render(request, 'users/index.html')
+        return redirect("/feedback/")
 
     else:
         if request.GET.get("type", "") == "":
@@ -236,7 +359,9 @@ def aboutForm(request, formid):
 
 class UpdateForm(LoginRequired, UpdateView):
     model = MyForm
-    fields = ["form_heading", "form_status", "form_type"]
+    template_name_suffix = '_update_form'
+    # fields = ["form_heading", "form_status", "form_type"]
+    fields = ["form_heading", "form_status"]
 
 
 def IndividualFormAns(request, formid):
@@ -318,14 +443,19 @@ def subans(request):
                 param = str(q.id) + "-" + str(option)
                 if request.POST.get(param, "") == option:
                     answer += str(option) + " (,)"
-        else:
+            userans.answer = answer
+            userans.save()
+        if q.ques_type == 'rg':
             param = str(q.id)
             answer = request.POST.get(param, "")
-
-        userans.answer = answer
-
-        userans.save()
-
+            if isinstance(answer, int):
+                userans.answer = answer
+                userans.save()
+        if q.ques_type == 'tx':
+            param = str(q.id)
+            answer = request.POST.get(param, "")
+            userans.answer = answer
+            userans.save()
     return redirect("/feedback/")
 
 
@@ -367,20 +497,23 @@ def mychart(request):
                 borderColor = list()
                 #  print("Description :", description, " Type : ", type)
                 if q.ques_type == "rg":
-                    label = list(range(1, int(q.ques_option) + 1))
-                    data = [0] * int(q.ques_option)
-                    graph = "bar"
-                    answers = MyAnswer.objects.filter(question_id=q.id)
+                    regex = re.compile(r'^([0-9]+)$')
+                    if regex.match(q.ques_option):
+                        label = list(range(1, int(q.ques_option) + 1))
+                        data = [0] * int(q.ques_option)
+                        graph = "bar"
+                        answers = MyAnswer.objects.filter(question_id=q.id)
 
-                    for i in range(int(q.ques_option)):
-                        backgroundColor.append(bgColor[i % num_color])
-                        borderColor.append(bColor[i % num_color])
+                        for i in range(int(q.ques_option)):
+                            backgroundColor.append(bgColor[i % num_color])
+                            borderColor.append(bColor[i % num_color])
 
-                    # print("Answers : ", answers)
-                    for a in answers:
-                        index = int(a.answer) - 1
-                        data[index] = data[index] + 1
-                    # print("Data : ", data)
+                        # print("Answers : ", answers)
+                        for a in answers:
+                            index = int(a.answer) - 1
+                            data[index] = data[index] + 1
+                    else:
+                        description = "Not Valid input For This Question"
                 if q.ques_type == "chk":
                     label = list()
                     data = [0] * int(q.quest_numb_option)

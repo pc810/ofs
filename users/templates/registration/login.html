@@ -1,5 +1,5 @@
 {% extends 'users/header.html' %}
-{% block title %}Login Page {% endblock %}
+{% block title %}Login {% endblock %}
 {% block body %}
 <br>
 <br>
@@ -10,7 +10,7 @@
         <div class="row">&nbsp;</div>
         <div class="row">&nbsp;</div>
         <div class="row">&nbsp;</div>
-        <div class="col-md-4">
+        <div class="col-md-8">
             <form action="" method="POST">
                 {% csrf_token %}
                 {%for fields in form %}

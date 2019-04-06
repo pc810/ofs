@@ -9,8 +9,79 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <style>
+    input[type=text],input[type=password],input[type=email], select, textarea {
+  width: 50%;
+  padding: 12px;
+  border: 1px solid #025;
+  border-radius: 10px;
+  resize: vertical;
+}
+            body {
+	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+	background-size: 1000% 1000%;
+	-webkit-animation: Gradient 15s ease infinite;
+	-moz-animation: Gradient 15s ease infinite;
+	animation: Gradient 15s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+label,
+text,
+font,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p{
+    color: black;
+
+}
+a{
+color:blue;
+}
+
+    </style>
 </head>
-<body style="background-color:#9900ff;">
+<body>
+<!--<body style="background-color:#9900ff;">-->
         <script>
             $(document).ready(function() {
             var bgcolorslist = ["#3cba54","#f4c20d","#db3236","#4885ed","#9900ff"];
@@ -22,15 +93,19 @@
                                 ];
 
             var index = Math.floor((Math.random() * bgcolorslist.length));
-            document.body.style.background = bgcolorslist[index];
+            <!--document.body.style.background = bgcolorslist[index];-->
 
               {%block jquery %}{% endblock %}
             });
         </script>
         <div class="container-fluid">
-        <nav class="navbar navbar-expand-sm bg-white">
+            <br>
+        <nav class="navbar navbar-expand-sm bg-white" style="border-radius: 25px 25px 25px 25px;">
                 <div class="navbar-brand">
-                    <a href="/users/"><img src="https://res-2.cloudinary.com/toolmuse/image/upload/production_1_fwvg7j" alt="BRAND" height="30px" width="30px"> </a>
+                    <a href="/users/">
+                        <img src="https://res-2.cloudinary.com/toolmuse/image/upload/production_1_fwvg7j" alt="BRAND" height="30px" width="30px">
+                        Forms
+                    </a>
                 </div>
 
         <div class="collapse navbar-collapse">

@@ -1,6 +1,6 @@
 {% extends 'users/header.html' %}
 {%block title%}
-     ABOUT FORM
+     About Form
 {%endblock%}
 {%block body%}
 <br>
@@ -27,12 +27,17 @@
                             <img src="https://image.flaticon.com/icons/png/512/15/15462.png" alt="{{question.ques_type}}" width="40" height="37">
                           {% elif question.ques_type == "rg" %}
                             <img src="https://www.freeiconspng.com/uploads/black-star-icon-6.png" alt="{{question.ques_type}}" width="40" height="37">
-
                           {%else%}
                             {{question.ques_type}}
                           {%endif%}
-
                       </div>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <form action="/feedback/question/update" method="GET">
+                              {% csrf_token %}
+                              <input type="hidden" value="{{question.id}}" name="qid">
+                              <button type="submit" class="btn btn-dark">Edit</button>
+                          </form>
+
                   </div>
               </div>
                <div class="card-body">
@@ -54,6 +59,11 @@
                 </div>
                 <div class="card-footer" >
                     <div class="row">
+                        <form action="/feedback/question/delete" method="POST">
+                              {% csrf_token %}
+                              <input type="hidden" value="{{question.id}}" name="qid">
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                          </form>
                         <div class="ml-auto">
                             <a href="#">VIEW STATS</a>
                         </div>

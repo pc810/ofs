@@ -18,4 +18,6 @@ urlpatterns = [
     url(r'subans', views.subans, name="submitanswer"),
     url(r'^formrespindividual/(?P<formid>[0-9]+)$', views.IndividualFormAns, name="individual-resp"),
     url(r'^formrespindividual/userresp/', views.UserResp, name="user-resp"),
+    url(r'^question/update$', views.updatequestion, name="question-update"),
+    url(r'^question/delete', views.delete_question, name="question-delete"),
 ]

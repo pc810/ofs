@@ -1,0 +1,71 @@
+{% extends 'users/header.html' %}
+{%block title%}
+     Update Question
+{%endblock%}
+{%block body%}
+<br>
+    <div class="container">
+        <div class="jumbotron">
+            <form action="/feedback/question/update" method="post">
+                {% csrf_token %}
+                <center>
+                <div class="row">
+                    <div class="col-md-3">
+                    <h1>Question</h1>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="ques_text" value="{{ques_text}}">
+                    </div>
+                </div>
+                    </center>
+                <br><br><br><br>
+                <center>
+                <h1>Option</h1>
+                </center>
+                    <input type="hidden" value="{{qid}}" name="qid">
+                    <input type="hidden" value="{{type}}" name="type">
+                <center>
+
+                {% if type == "chk"%}
+
+                    <br>
+                        <input type="checkbox" class="filled-in">
+                        <input type="text" class="filled-in" name="option1" value="{{optionlist.0}}"><br>
+                    <br>
+                        <input type="checkbox" class="filled-in">
+                        <input type="text" class="filled-in" name="option2" value="{{optionlist.1}}"><br>
+                    <br>
+                        <input type="checkbox" class="filled-in">
+                        <input type="text" class="filled-in" name="option3" value="{{optionlist.2}}"><br>
+                    <br>
+                        <input type="checkbox" class="filled-in">
+                        <input type="text" class="filled-in" name="option4" value="{{optionlist.3}}"><br>
+
+                {% elif type == "cho" %}
+                    <br>
+                        <input type="radio" class="filled-in">
+                        <input type="text" class="filled-in" name="option1" value="{{optionlist.0}}"><br>
+                    <br>
+                        <input type="radio" class="filled-in">
+                        <input type="text" class="filled-in" name="option2" value="{{optionlist.1}}"><br>
+                    <br>
+                        <input type="radio" class="filled-in">
+                        <input type="text" class="filled-in" name="option3" value="{{optionlist.2}}"><br>
+                    <br>
+                        <input type="radio" class="filled-in">
+                        <input type="text" class="filled-in" name="option4" value="{{optionlist.3}}"><br>
+                {% elif type == "rg" %}
+                    <br>
+                        <input type="text" name="range" value="{{optionlist}}"><br>
+                {%else%}
+                    <br>
+                        <input type="text" name="tx" value="{{optionlist}}"><br>
+                {%endif%}
+                    <br>
+                    <br>
+                <input type="submit" class="btn btn-dark" value="submit">
+                </center>
+            </form>
+            </div>
+        </div>
+{%endblock%}

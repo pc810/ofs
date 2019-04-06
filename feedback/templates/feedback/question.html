@@ -1,16 +1,17 @@
 {% extends 'users/header.html '%}
 {% block title %}
-    Index FeedBack App
+    Add Question
 {% endblock %}
 
 {% block body %}
-<h1>This is Index of Feedback App</h1>
 <br>
 {%if user.is_authenticated%}
 <div class="container">
     <div class="jumbotron">
-        <h1> ADD A Question </h1>
-        <h6> THIS IS FORM {{id}}</h6>
+        <h1> Add a Question </h1>
+        <br>
+        <br>
+        <!--<h6> THIS IS FORM {{id}}</h6>-->
         <br><br>
             <div class="row">
                 <div class="col-md-4">
@@ -148,7 +149,8 @@
                     </div>
                 </div>
                 {% elif type == "tx" %}
-                <textarea rows="15" cols="100" name="mytextarea">Write Something</textarea>
+                <input type="hidden" name="mytextarea" value="textarea">
+                <!--<textarea rows="15" cols="100" name="mytextarea">Write Something</textarea>-->
                 {% elif type == "rg" %}
                 <div class="row">
                     <div class="col-md-2">
@@ -159,9 +161,10 @@
                     </div>
                 </div>
                 {% endif%}
-                <div class="row">
-                    <input type="submit" class="btn btn-success" value="submit">
-                </div>
+                <br>
+                <center>
+                <input type="submit" class="btn btn-success" value="submit">
+                    </center>
             </form>
         </div>
     </div>

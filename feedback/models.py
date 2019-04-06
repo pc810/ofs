@@ -12,10 +12,10 @@ class Form(models.Model):
     )
     form_heading = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    form_link = models.TextField()
+   # form_link = models.TextField()
     form_posted = models.DateField(auto_now=True)
     form_status = models.CharField(choices=FORM_STATUS, max_length=10)
-    form_type = models.CharField(max_length=50, default="custom")
+#    form_type = models.CharField(max_length=50, default="custom")
 
     class Meta:
         ordering = ["-form_posted"]

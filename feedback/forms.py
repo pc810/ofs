@@ -22,5 +22,5 @@ class NameForm(forms.Form):
 
     )
     form_heading = forms.CharField(max_length=50)
-    form_link = forms.CharField()
+ #   form_link = forms.CharField()
     form_status = forms.ChoiceField(choices=FORM_STATUS)

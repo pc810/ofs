@@ -1,6 +1,6 @@
 {% extends 'users/header.html' %}
 {% block title %}
-    Index FeedBack App
+    Home
 {% endblock %}
 
 {% block body %}
@@ -12,8 +12,7 @@
 {%if user.is_authenticated%}
 <div class="container">
     <div class="jumbotron">
-        <font size=10px>Start a new Form</font><br><br><br><br>
-
+        <font size=10px>Start a new Form</font><br><br>
         <div class="row">
             <div class="card" style="width:200px">
                 <a href="{% url 'feedback:form-add' %}">
@@ -73,17 +72,24 @@
                   </div>
               </div>
                <div class="card-body">
-                   <p class="card-text">
-                       <font size="5px">Link:&nbsp;&nbsp;&nbsp;&nbsp;</font>
-                       <font size="3">{{form.form_link}}</font>
-                   </p>
+                   <!--<p class="card-text">-->
+                       <!--<font size="5px">Link:&nbsp;&nbsp;&nbsp;&nbsp;</font>-->
+                       <!--<font size="3">{{form.form_link}}</font>-->
+                   <!--</p>-->
                     <p class="card-text">
                        <font size="5px">Posted:&nbsp;&nbsp;&nbsp;&nbsp;</font>
                        <font size="6">{{form.form_posted}}</font>
                    </p>
                    <p class="card-text">
                        <font size="5px">Status:&nbsp;&nbsp;&nbsp;&nbsp;</font>
-                       <font size="10">{{form.form_status}}</font>
+                       <font size="10">
+                           {% if form.form_status == "DA" %}
+                           <!--{{form.form_status}}-->
+                                Deactive
+                           {% else %}
+                                Active
+                           {% endif %}
+                       </font>
                    </p>
                 </div>
                 <div class="card-footer" >
@@ -93,6 +99,9 @@
                         <div class="row ">
                             <div class="col-md-2">
                                 <button class="btn btn-info" type="submit" name="myaction" value="response">Response</button>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="form/about/{{form.id}}" class="btn btn-dark">Questions</a>
                             </div>
                             <div class="ml-auto">
                                 <button class="btn btn-success" type="submit" name="myaction" value="addquestion">Add Question</button>
@@ -128,23 +137,25 @@
 
         </div>
     <div class="jumbotron">
-        Make Respose
+        <font size=10px>Make Respose</font><br><br><br><br>
         <br>
-        {% for form in responseform %}&nbsp;&nbsp;&nbsp;&nbsp;
+        {% if not responseform %}
+            <font size=5px>No Resposes to make</font><br>
+        {% endif%}
+        {% for form in responseform %}
+            {% if form.form.form_status == "AC"%}
             <div class="card border-primary" style="width: 40rem;">
-
-
                      <center><font size="7">{{form.form.form_heading}}</font></center>
                     <input type="hidden" name="formid" value="{{form.form.id}}">
                 <br><a href="formresp/{{form.form.id}}" class="btn btn-success">Give answer</a>
             </div>
-          </div>
+            {%endif%}
         {% endfor %}
-    </div>
+        </div>
     </div>
 {%else%}
 <div class="container">
-<div class="jumbotron"> HELLO there</div>
+    <div class="jumbotron"><p>HELLO there</p></div>
 </div>
 {%endif%}
 

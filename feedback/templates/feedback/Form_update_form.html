@@ -1,13 +1,17 @@
 {%extends 'users/header.html' %}
-{%block title %}Form{% endblock %}
+{%block title %}Update Form{% endblock %}
 {%block body%}
 <div class="container">
     <br>
     <br>
 <div class="jumbotron">
+    <center>
+        <h1>
+            Update Form
+        </h1><br><br><br>
     <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-             {% for field in form %}
+        {% for field in form %}
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <span class="text-danger small">{{field.errors}}</span>
@@ -16,11 +20,11 @@
         </div>
     </div>
     {%endfor%}
-   <div>
+        <div>
             <button class="btn btn-success" type="submit">Submit</button>
         </div>
     </form>
-
+    </center>
 </div>
     </div>
 {%endblock%}

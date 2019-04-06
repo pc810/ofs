@@ -1,6 +1,6 @@
 {% extends 'users/header.html' %}
 {%block title%}
-    user response
+    User Response
 {%endblock%}
 {%block body%}
 <br>
@@ -8,11 +8,7 @@
 <div class="container jumbotron" style="background-color:#fffae6;">
     <h1>{{form}}</h1>
     <br>
-    <h4>Questions: </h4>
-    <br>
-
-
-    {%for userresp in resp%}
+  {%for userresp in resp%}
     <br><br><br>
     <div class="card border-primary">
         <div class="card-header">
