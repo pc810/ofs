@@ -179,7 +179,6 @@ def createForm(request):
             myform = MyForm()
             myform.user = user
             myform.form_heading = form.cleaned_data["form_heading"]
-            myform.form_link = form.cleaned_data["form_link"]
             myform.form_status = form.cleaned_data["form_status"]
             myform.save()
 
