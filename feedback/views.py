@@ -453,9 +453,8 @@ def subans(request):
         if q.ques_type == 'rg':
             param = str(q.id)
             answer = request.POST.get(param, "")
-            if isinstance(answer, int):
-                userans.answer = answer
-                userans.save()
+            userans.answer = answer
+            userans.save()
         if q.ques_type == 'tx':
             param = str(q.id)
             answer = request.POST.get(param, "")

@@ -55,7 +55,9 @@
                         <input type="radio" class="filled-in">
                         <input type="text" class="filled-in" name="option4" value="{{optionlist.3}}"><br>
                 {% elif type == "rg" %}
-                    <br>
+                    <small style="color:red;">Enter only numeric value</small>
+                <small style="color:red;">i.e from 1 to n</small>
+                <br><br><br>
                         <input type="text" name="range" value="{{optionlist}}"><br>
                 {%else%}
                     <br>
