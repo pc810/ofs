@@ -1,0 +1,26 @@
+{% extends 'users/header.html' %}
+{% block title %}Edit Profile {% endblock %}
+{% block body %}
+<br>
+<br>
+ <div class="container">
+    <div class="jumbotron">
+        <center>
+            <h1>Edit Profile</h1>
+            <br><br>
+            <form action="/users/profile/edit/" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                {% if forloop.counter != 3%}
+                        {{fields.errors}}
+                        <h3>{{field.label_tag}}</h3>
+                        {{field}}
+                    {% endif %}
+                <br><br>
+                {% endfor %}
+            <input type="submit" class="btn btn-primary">
+        </form>
+        </center>
+ </div>
+ </div>
+{% endblock %}

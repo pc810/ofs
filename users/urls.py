@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'^register', views.signup, name="signup"),
     url(r'about', views.about, name="about"),
+    url(r'profile/(?P<username>[a-zA-Z0-9]+)$', views.get_user_profile),
+    url(r'profile/edit/$', views.edit_profile),
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='users/password-reset.html'),
          name="password_reset"),
     path('password_reset/done/',

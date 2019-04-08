@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm
+from .forms import UserForm, UserChangeForm, EditProfileForm
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.views.generic import UpdateView
 
 def index(request):
     template_name = 'users/index.html'
@@ -23,3 +25,17 @@ def signup(request):
         form = UserForm()
     return render(request, 'users/registration_form.html', {'form': form})
 
+def get_user_profile(request, username):
+    user = User.objects.get(username=username)
+    return render(request, 'users/user_profile.html', {"user":user})
+
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("/users/")
+    else:
+        form = EditProfileForm(instance=request.user)
+        return render(request, "users/edit_profile.html", {"form":form})

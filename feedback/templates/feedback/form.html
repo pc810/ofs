@@ -5,6 +5,8 @@
     <br>
     <br>
 <div class="jumbotron">
+    <center>
+        <h1>Add Form</h1><br><br>
     <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
              {% for field in form %}
@@ -20,6 +22,7 @@
             <button class="btn btn-success" type="submit">Submit</button>
         </div>
     </form>
+        </center>
 
 </div>
     </div>

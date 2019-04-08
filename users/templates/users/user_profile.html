@@ -1,0 +1,26 @@
+{% extends 'users/header.html' %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+<br>
+<br>
+ <div class="container">
+    <div class="jumbotron">
+        <center>
+            <div class="row">
+                    <div class="ml-auto">
+                       <a href="/users/profile/edit/" class="btn btn-primary" style="font-size:20px;">Edit</a> &nbsp; &nbsp; &nbsp; &nbsp;
+                    </div>
+
+            </div>
+        <br>
+        <h1>Profile</h1>
+        <br><br>
+        <h3>Username</h3>
+        <input type="text" value="{{ user.username }}" disabled="disabled">
+            <br><br><br><br>
+        <h3>Email</h3>
+            <input type="text" value="{{ user.email }}" disabled="disabled">
+        </center>
+    </div>
+ </div>
+{% endblock %}

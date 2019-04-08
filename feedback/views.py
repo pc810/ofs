@@ -143,7 +143,8 @@ def updatequestion(request):
             quest_numb_option += 1
             regex = re.compile(r'^([0-9]+)$')
             if not regex.match(ques_text):
-                return render(request, "feedback/message.html", {"message": "Not valid Input"})
+                userquestion = MyQuestion.objects.filter(pk=qid)[0]
+                return render(request, "feedback/message.html", {"message": "Not valid Input", "next": "/feedback/form/about/"+str(userquestion.form.id)})
 
 
         userquestion = MyQuestion.objects.filter(pk=qid)[0]
@@ -160,11 +161,16 @@ def index(request):
         print(request.user.id)
         userform = MyForm.objects.filter(user=request.user)
         myrf = rf.objects.filter(user=request.user)
+        print("reform")
         print(myrf)
         responseform = list()
         for myform in myrf:
-            given = MyAnswer.objects.filter(user=request.user, form=myform.form)
-            if not given:
+            given = Myresp.objects.filter(user=request.user, form=myform.form)
+            print("given")
+            print(given)
+            if not given.exists():
+                print("append")
+                print(myform)
                 responseform.append(myform)
         return render(request, template_name, {'userform': userform , 'responseform':responseform})
     else:
@@ -577,23 +583,41 @@ def mychart(request):
 
 
 def shareEmail(request):
+    if not request.user.is_authenticated:
+        message = "Unauthorised Access"
+        return render(request, "feedback/message.html", {"message": message, "next": "/users/login","success": ""})
+
     fid = request.GET.get("formid", None)
     emails = request.GET.get("email", None)
+    if not emails:
+        message = "No Email Given"
+        return render(request, "feedback/message.html", {"message": message, "next": "/feedback/", "success": ""})
+
     feedback_link = "http://192.168.1.107:8000/feedback/formresp/" + fid
     lis = emails.split(",")
+    notgiven = list()
     for i in range(0, len(lis)):
         lis[i] = lis[i].strip(' ')
         print(lis[i])
-        usermy = Myuser.objects.filter(email=lis[i])[0]
-        print(usermy)
-        respform = rf()
-        respform.user = usermy
-        respform.form = MyForm.objects.filter(pk=fid)[0]
-        given = rf.objects.filter(user=request.user, form=respform.form)
-        if not given:
-            respform.save()
-            mail_body = " Your Feedback Can Be Recorded By Using : " + feedback_link
-            send_mail('FEEDBACK FORM ', mail_body, settings.EMAIL_HOST_USER, [lis[i]], fail_silently=False)
+        usermy = Myuser.objects.filter(email=lis[i])
+        if not usermy:
+            notgiven.append(lis[i])
+        else:
+            usermy = Myuser.objects.filter(email=lis[i])[0]
+        if usermy:
+            respform = rf()
+            respform.user = usermy
+            respform.form = MyForm.objects.filter(pk=fid)[0]
+            given = rf.objects.filter(user=usermy, form=respform.form)
+            if not given:
+                print("given")
+                respform.save()
+                mail_body = " Your Feedback Can Be Recorded By Using : " + feedback_link
+                send_mail('FEEDBACK FORM ', mail_body, settings.EMAIL_HOST_USER, [lis[i]], fail_silently=False)
 
     # SUCCESS MESSAGE AND FAILURE HANDLING IS LEFT
-    return redirect("/feedback")
+    if len(notgiven)>0:
+        return render(request, "feedback/message.html", {"message": "List Of Email which doesn't Exist ","notgiven": notgiven, "next": "/feedback/", "success": ""})
+    else:
+        return render(request, "feedback/message.html", {"success": "Send Successfully", "next": "/feedback/"})
+    #return redirect("/feedback")

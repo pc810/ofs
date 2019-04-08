@@ -5,6 +5,29 @@
 
 {% block body %}
 <div class="container">
-    <br><br><div class="jumbotron"><h1>{{message}}</h1></div>
+    <br><br>
+    <div class="jumbotron">
+
+        {% if message != "" %}
+        <h1>{{message}}</h1>
+        <br>
+        {% endif %}
+
+        {% if notgiven %}
+            {% for email in notgiven %}
+                <br><h4>{{email}}</h4>
+            {% endfor %}
+        <br>
+        {% endif %}
+        {% if success != "" %}
+            <a href="{{next}}" class="btn btn-success" style="font-size:50px;">{{success}}</a>
+        <br>
+        {% endif %}
+        {% if next != "" %}
+        <br><a href="{{next}}" class="btn btn-success" style="font-size='30px';">Ok</a>
+        <br>
+        {% endif %}
+
+    </div>
 </div>
 {% endblock%}
