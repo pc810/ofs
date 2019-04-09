@@ -15,6 +15,7 @@ from django.views.generic import View
 from .models import response_user as rf
 from django.contrib.auth.decorators import login_required
 import re
+import copy
 
 
 class LoginRequired(View):
@@ -66,11 +67,11 @@ def updatequestion(request):
         question = MyQuestion.objects.filter(pk=qid)[0]
 
         form = MyForm.objects.filter(question=question)[0]
-        print(form.user)
-        print(user)
+    #    print(form.user)
+   #     print(user)
 
         if form.user != user:
-            print("ret")
+        #    print("ret")
             return redirect("/users/")
         else:
             ques_text = question.ques_text
@@ -158,19 +159,19 @@ def updatequestion(request):
 def index(request):
     template_name = 'feedback/index.html'
     if request.user.id:
-        print(request.user.id)
+        #print(request.user.id)
         userform = MyForm.objects.filter(user=request.user)
         myrf = rf.objects.filter(user=request.user)
-        print("reform")
-        print(myrf)
+        #print("reform")
+        #print(myrf)
         responseform = list()
         for myform in myrf:
             given = Myresp.objects.filter(user=request.user, form=myform.form)
-            print("given")
-            print(given)
+            #print("given")
+            #print(given)
             if not given.exists():
-                print("append")
-                print(myform)
+             #   print("append")
+            #    print(myform)
                 responseform.append(myform)
         return render(request, template_name, {'userform': userform , 'responseform':responseform})
     else:
@@ -597,7 +598,7 @@ def shareEmail(request):
     notgiven = list()
     for i in range(0, len(lis)):
         lis[i] = lis[i].strip(' ')
-        print(lis[i])
+     #   print(lis[i])
         usermy = Myuser.objects.filter(email=lis[i])
         if not usermy:
             notgiven.append(lis[i])
@@ -609,7 +610,7 @@ def shareEmail(request):
             respform.form = MyForm.objects.filter(pk=fid)[0]
             given = rf.objects.filter(user=usermy, form=respform.form)
             if not given:
-                print("given")
+               # print("given")
                 respform.save()
                 mail_body = " Your Feedback Can Be Recorded By Using : " + feedback_link
                 send_mail('FEEDBACK FORM ', mail_body, settings.EMAIL_HOST_USER, [lis[i]], fail_silently=False)
@@ -620,3 +621,29 @@ def shareEmail(request):
     else:
         return render(request, "feedback/message.html", {"success": "Send Successfully", "next": "/feedback/"})
     #return redirect("/feedback")
+
+
+def form_course(request):
+    if not request.user.is_authenticated:
+        return redirect("/users/login")
+    mypk = 27
+    myform = MyForm()
+    form = MyForm.objects.filter(pk=mypk)[0]
+    if not form:
+        redirect("/feedback/")
+    qlist =MyQuestion.objects.filter(form=form)
+    myform.form_heading = form.form_heading
+    myform.form_status = form.form_status
+    myform.user = request.user
+    myform.save()
+    for question in qlist:
+        q = MyQuestion()
+        q.form = myform
+        q.ques_text = question.ques_text
+        q.ques_type = question.ques_type
+        q.quest_numb_option = question.quest_numb_option
+        q.ques_option = question.ques_option
+        q.save()
+    #print(form.id)
+    #print(myform.id)
+    return redirect("/feedback/")

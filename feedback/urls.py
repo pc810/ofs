@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^formrespindividual/userresp/', views.UserResp, name="user-resp"),
     url(r'^question/update$', views.updatequestion, name="question-update"),
     url(r'^question/delete', views.delete_question, name="question-delete"),
+    url(r'^form/add/course', views.form_course, name="form-course"),
 ]
