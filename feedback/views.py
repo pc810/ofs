@@ -461,6 +461,11 @@ def subans(request):
             answer = request.POST.get(param, "")
             userans.answer = answer
             userans.save()
+        if q.ques_type == 'cho':
+            param = str(q.id)
+            answer = request.POST.get(param, "")
+            userans.answer = answer
+            userans.save()
     return redirect("/feedback/")
 
 
