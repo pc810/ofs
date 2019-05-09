@@ -156,13 +156,13 @@
         {% endif%}
         {% for form in responseform %}
             {% if form.form.form_status == "AC"%}
-            <div class="card border-primary" style="width: 40rem;">
+            <div class="card border-primary">
                      <center><font size="7">{{form.form.form_heading}}</font></center>
                     <input type="hidden" name="formid" value="{{form.form.id}}">
                 <br><a href="formresp/{{form.form.id}}" class="btn btn-success">Give answer</a>
             </div>
             {%else%}
-            <div class="card border-primary" style="width: 40rem;">
+            <div class="card border-primary">
                      <center><font size="7">{{form.form.form_heading}}</font></center>
                     <input type="hidden" name="formid" value="{{form.form.id}}">
                 <br><a href="#" class="btn btn-success">Not available Currently</a>
