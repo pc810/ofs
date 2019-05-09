@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'kdxewxj3ik-*ql@(=($@=6ya%pguh(2)z4l0mc=$_$-o(%h*39'
- SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ofs',
         'USER': 'root',
-        'PASSWORD': 'opm1613S',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }
