@@ -1,3 +1,4 @@
+akinator.py==1.0.3.dev1
 appnope==0.1.0
 asn1crypto==0.24.0
 attrs==19.1.0
@@ -19,11 +20,13 @@ cssselect==1.0.3
 cycler==0.10.0
 decorator==4.3.0
 defusedxml==0.5.0
+dj-database-url==0.5.0
 Django==2.1.5
 django-countries==5.3.3
 django-crispy-forms==1.7.2
 django-filter==2.1.0
 django-guardian==1.5.0
+django-heroku==0.3.1
 django-hvad==1.8.0
 django-libs==2.0.2
 djangorestframework==3.9.2
@@ -78,6 +81,7 @@ post==2018.11.20
 prometheus-client==0.5.0
 prompt-toolkit==2.0.7
 protobuf==3.6.1
+psycopg2==2.8.2
 ptyprocess==0.6.0
 public==2018.11.20
 pyasn1==0.4.5
@@ -124,5 +128,6 @@ w3lib==1.20.0
 wcwidth==0.1.7
 webencodings==0.5.1
 websocket-client==0.55.0
+whitenoise==4.1.2
 widgetsnbextension==3.4.2
 zope.interface==4.6.0
