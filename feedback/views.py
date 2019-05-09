@@ -598,7 +598,7 @@ def shareEmail(request):
         message = "No Email Given"
         return render(request, "feedback/message.html", {"message": message, "next": "/feedback/", "success": ""})
 
-    feedback_link = "http://192.168.1.107:8000/feedback/formresp/" + fid
+    feedback_link = "http://formvilla.herokuapp.com/feedback/formresp/" + fid
     lis = emails.split(",")
     notgiven = list()
     for i in range(0, len(lis)):
