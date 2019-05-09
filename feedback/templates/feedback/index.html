@@ -13,7 +13,7 @@
 {%if user.is_authenticated%}
 <div class="container">
     <div class="jumbotron">
-        <font size=10px>Start a new Form</font><br><br>
+        <font size=6px>Start a new Form</font><br><br>
         <div class="row">
             <div class="card" style="width:200px">
                 <a href="{% url 'feedback:form-add' %}">
@@ -24,6 +24,7 @@
                     </div>
                 </a>
             </div>
+
             &nbsp;&nbsp;&nbsp;
             <div class="card" style="width:200px">
                 <a href="#">
@@ -64,7 +65,7 @@
         {% for form in userform %}
         &nbsp;&nbsp;&nbsp;&nbsp;
 
-          <div class="card border-primary" style="width: 40rem;">
+          <div class="card border-primary">
               <div class="card-header">
                   <div class="row"><a href="form/about/{{form.id}}"><font size="5">{{form.form_heading}}</font></a>
                       <div class="ml-auto">
@@ -84,11 +85,11 @@
                    <!--</p>-->
                     <p class="card-text">
                        <font size="5px">Posted:&nbsp;&nbsp;&nbsp;&nbsp;</font>
-                       <font size="6">{{form.form_posted}}</font>
+                       <font size="5">{{form.form_posted}}</font>
                    </p>
                    <p class="card-text">
                        <font size="5px">Status:&nbsp;&nbsp;&nbsp;&nbsp;</font>
-                       <font size="10">
+                       <font size="5">
                            {% if form.form_status == "DA" %}
                            <!--{{form.form_status}}-->
                                 Deactive
@@ -103,13 +104,18 @@
                        {% csrf_token %}
                        <input type="hidden" name="formid" value="{{form.id}}">
                         <div class="row ">
-                            <div class="col-md-2">
-                                <button class="btn btn-info" type="submit" name="myaction" value="response">Response</button>
-                            </div>
-                            <div class="col-md-3">
+                            <!--<div class="col-md-2">-->
+                                <!--<button class="btn btn-info" type="submit" name="myaction" value="response">Response</button>-->
+                            <!--</div>-->
+                            <!--<div class="col-md-3">-->
+                                <!--<a href="form/about/{{form.id}}" class="btn btn-dark">Questions</a>-->
+                            <!--</div>-->
+                            <div class="ml-left">
                                 <a href="form/about/{{form.id}}" class="btn btn-dark">Questions</a>
-                            </div>
-                            <div class="ml-auto">
+                                <button class="btn btn-info" type="submit" name="myaction" value="response">Response</button>
+                            <!--</div>-->
+                            <!--&nbsp &nbsp-->
+                                <!--<div class="ml-left">-->
                                 <button class="btn btn-success" type="submit" name="myaction" value="addquestion">Add Question</button>
                                 <button class="btn btn-danger" type="submit" name="myaction" value="remove">Remove</button>
                                 <!--<a href="formresp/{{form.id}}">Give answer</a>-->
