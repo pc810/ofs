@@ -2,6 +2,7 @@
 <html lang="en">
 <title>{%block title%}{%endblock%}</title>
 <head>
+    <link rel="icon" href="https://res-2.cloudinary.com/toolmuse/image/upload/production_1_fwvg7j">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
@@ -98,7 +99,7 @@ color:blue;
             var index = Math.floor((Math.random() * bgcolorslist.length));
             <!--document.body.style.background = bgcolorslist[index];-->
 
-              {%block jquery %}{% endblock %}
+              {% block jquery %}{% endblock %}
             });
         </script>
         <div class="container-fluid">
