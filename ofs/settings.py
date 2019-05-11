@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = 'kdxewxj3ik-*ql@(=($@=6ya%pguh(2)z4l0mc=$_$-o(%h*39'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['192.168.1.104','127.0.0.1','formvilla.herokuapp.com']
 
