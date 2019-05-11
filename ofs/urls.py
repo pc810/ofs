@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import include
+from django.conf.urls import include, url
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
@@ -23,5 +23,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='users/index.html'), name='home'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
     path('feedback/', include('feedback.urls')),
 ]
